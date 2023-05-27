@@ -22,15 +22,8 @@ spec:
               cpu: "1024m"
           ports:
             - containerPort: 8089
-          volumeMounts:
-            - name: timezone
-              mountPath: /etc/localtime                           # 挂载到容器的目录
       imagePullSecrets:
         - name: aliyun-registry
-      volumes:
-        - name: timezone
-          hostPath:
-            path: /usr/share/zoneinfo/Asia/Shanghai            # 宿主机的目录
 
 ---
 
