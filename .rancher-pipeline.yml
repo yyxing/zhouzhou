@@ -2,16 +2,16 @@ stages:
 - name: Build
   steps:
   - runScriptConfig:
-      image: maven:3.6.3-openjdk-8-slim
+      image: registry.cn-beijing.aliyuncs.com/nebula_zhou/maven:1.0.0
       shellScript: mvn clean package -Dmaven.test.skip=true
 - name: Push
   steps:
   - publishImageConfig:
       dockerfilePath: Dockerfile
       buildContext: .
-      tag: ${CICD_GIT_REPO_NAME}:${CICD_GIT_BRANCH}-${CICD_GIT_COMMIT}
+      tag: ${CICD_GIT_BRANCH}-${CICD_GIT_COMMIT}
       pushRemote: true
-      registry: registry.cn-beijing.aliyuncs.com/devil_spring_cloud/devil-dev
+      registry: registry.cn-beijing.aliyuncs.com/nebula_zhou/zhouzhou_site
 - name: Deploy
   steps:
   - applyYamlConfig:
