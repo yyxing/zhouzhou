@@ -9,7 +9,7 @@ stages:
   - publishImageConfig:
       dockerfilePath: Dockerfile
       buildContext: .
-      tag: ${CICD_GIT_BRANCH}-${CICD_GIT_COMMIT}
+      tag: ${CICD_GIT_REPO_NAME}:${CICD_GIT_BRANCH}-${CICD_GIT_COMMIT}
       pushRemote: true
       registry: registry.cn-beijing.aliyuncs.com/nebula_zhou/zhouzhou_site
 - name: Deploy

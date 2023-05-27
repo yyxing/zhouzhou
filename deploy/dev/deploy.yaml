@@ -26,7 +26,7 @@ spec:
             - name: timezone
               mountPath: /etc/localtime                           # 挂载到容器的目录
       imagePullSecrets:
-        - name: aliyun-registry-devil
+        - name: aliyun-registry
       volumes:
         - name: timezone
           hostPath:
