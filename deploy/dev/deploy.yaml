@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zhouzhou
+  namespace: dev
+spec:
+  selector:
+    matchLabels:
+      app: zhouzhou
+  template:
+    metadata:
+      labels:
+        app: zhouzhou
+    spec:
+      containers:
+        - name: zhouzhou
+          image: ${CICD_IMAGE}:${CICD_GIT_BRANCH}-${CICD_GIT_COMMIT}
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "2048Mi"
+              cpu: "1024m"
+          ports:
+            - containerPort: 8089
+          volumeMounts:
+            - name: timezone
+              mountPath: /etc/localtime                           # 挂载到容器的目录
+      imagePullSecrets:
+        - name: aliyun-registry-devil
+      volumes:
+        - name: timezone
+          hostPath:
+            path: /usr/share/zoneinfo/Asia/Shanghai            # 宿主机的目录
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: zhouzhou
+  namespace: baw
+spec:
+  selector:
+    app: zhouzhou
+  ports:
+    - port: 8089
+      targetPort: 30080

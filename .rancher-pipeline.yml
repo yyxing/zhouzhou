@@ -1,0 +1,34 @@
+stages:
+- name: Build
+  steps:
+  - runScriptConfig:
+      image: maven:3.6.3-openjdk-8-slim
+      shellScript: mvn clean package -Dmaven.test.skip=true
+- name: Push
+  steps:
+  - publishImageConfig:
+      dockerfilePath: Dockerfile
+      buildContext: .
+      tag: ${CICD_GIT_REPO_NAME}:${CICD_GIT_BRANCH}-${CICD_GIT_COMMIT}
+      pushRemote: true
+      registry: registry.cn-beijing.aliyuncs.com/devil_spring_cloud/devil-dev
+- name: Deploy
+  steps:
+  - applyYamlConfig:
+      path: ./deploy/dev/deploy.yaml
+#- name: Push Latest
+#  steps:
+#  - publishImageConfig:
+#      dockerfilePath: Dockerfile
+#      buildContext: .
+#      tag: ${CICD_GIT_REPO_NAME}
+#      pushRemote: true
+#      registry: registry.cn-hangzhou.aliyuncs.com/boden-dev
+#    when:
+#      branch:
+#        exclude:
+#        - dev
+#        - beta
+#      event: {}
+timeout: 60
+notification: {}
