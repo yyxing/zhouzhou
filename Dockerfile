@@ -1,4 +1,7 @@
-FROM registry.cn-hangzhou.aliyuncs.com/acs/maven:3-jdk-8
+FROM openjdk:11-jre
+
+RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && echo "Asia/Shanghai" > /etc/timezone
 
 WORKDIR /app
 
